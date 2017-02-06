@@ -1,5 +1,5 @@
 #include "stack.h"
-#include "item.h"
+#include "../support/item.h"
 #include "../tester/tester.h"
 
 int main(void)
