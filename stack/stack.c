@@ -26,10 +26,13 @@ Stack *create_stack()
   return sp;
 }
 
-status delete_stack(Stack *sp)
+status delete_stack(Stack *sp, void (*item_destroy)(void *))
 {
   if (!sp)
     return ERROR;
+
+  for (int i = 0; i < stack_size(sp); i++)
+      item_destroy(sp->data[i]);
 
   free(sp->data);
   sp->data = NULL;

@@ -12,15 +12,15 @@ int main(void)
     assert("can create stack",
             s != NULL);
     assert("can push one element", 
-            push(s, new_item(1)) == OK);
+            push(s, item_new(1)) == OK);
     assert("stack size increased to 1",
             stack_size(s) == 1);
     assert("can pop on element",
-            ((Item *) pop(s))->foo == 1);
+            item_get_foo(pop(s)) == 1);
     assert("stack size decreased to 0",
             stack_size(s) == 0);
     assert("can delete stack",
-            delete_stack(s) == OK);
+            delete_stack(s, &item_destroy) == OK);
 
     return 0;
 }

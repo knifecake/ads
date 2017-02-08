@@ -15,7 +15,7 @@ typedef struct _Stack Stack;
 typedef enum {OK = 0, ERROR = -1} status;
 
 Stack *create_stack();
-status delete_stack(Stack *sp);
+status delete_stack(Stack *sp, void (*item_destroy)(void *));
 status push(Stack *sp, void *item);
 void *pop(Stack *sp);
 
