@@ -20,5 +20,9 @@ int main(void)
     assert("Can compare two items",
             item_compare(i, j) && !item_compare(i, k));
 
+    assert("Can obtain the foo property of an item",
+            item_get_foo(i) == 0);
+
+    item_destroy(i);
     return 0;
 }

@@ -1,13 +1,13 @@
 CC=gcc
 CFLAGS=-Wall -pedantic
 
-test: test.c item.o ../tester/tester.o
-	$(CC) $(CFLAGS) -o test test.c item.o ../tester/tester.o
-	./test
+test.out: test.c item.o ../tester/tester.o
+	$(CC) $(CFLAGS) -o test.out test.c item.o ../tester/tester.o
+	./test.out
 
 item.o: item.h item.c
 	$(CC) $(CFLAGS) -c item.c
 
 .PHONY: clean
 clean:
-	rm -rf *.o
+	rm -rf *.o *.out

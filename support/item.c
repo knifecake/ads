@@ -27,3 +27,8 @@ Item *item_copy(Item *original)
 {
     return item_new(original->foo);
 }
+
+int item_get_foo(Item *item)
+{
+    return item->foo;
+}
