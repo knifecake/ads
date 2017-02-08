@@ -5,8 +5,8 @@ typedef struct _Set Set;
 
 typedef enum {ERROR, OK} status;
 
-Set *new_set();
-void set_free(Set *set);
+Set *set_new();
+void set_destroy(Set *set, void (*item_destroy)(void *));
 status set_empty(Set *set);
 int set_size(Set *set);
 status set_insert(Set *set, void *item);

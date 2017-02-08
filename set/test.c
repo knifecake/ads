@@ -7,16 +7,14 @@ int main(void)
     printf("\nTesting a set...\n");
 
     Set *s, *t, *u;
-    s = new_set();
-    t = new_set();
-    u = new_set();
+    s = set_new();
+    t = set_new();
+    u = set_new();
 
-    Item *i1, *i2, *i3, *i4, *i5;
-    i1 = new_item(1);
-    i2 = new_item(2);
-    i3 = new_item(3);
-    i4 = new_item(4);
-    i5 = new_item(5);
+    Item *i1, *i2, *i3, *i4;
+    i1 = item_new(1);
+    i2 = item_new(2);
+    i3 = item_new(3);
 
     assert("Can create a set",
             s != NULL);
@@ -46,6 +44,7 @@ int main(void)
             set_size(s) == 3);
 
     // prepare for testing set_union
+    i4 = item_new(4);
     set_insert(t, i2);
     set_insert(t, i4);
 
@@ -55,14 +54,18 @@ int main(void)
     assert("Union has correct number of elements",
             set_size(u) == 4);
 
-    assert("Can empty set",
-            set_empty(u) == OK);
-
     assert("Can intersect sets",
             set_intersection(s, t, u));
 
     assert("Intersection has correct number of elements",
             set_size(u) == 1);
 
-    set_free(s);
+    assert("Can empty set",
+            set_empty(s));
+
+    set_destroy(s, &item_destroy);
+
+    // TODO: figure out how to test this
+    assert("Can destroy set", true);
+    return 0;
 }

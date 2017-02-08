@@ -10,7 +10,7 @@ struct _Set {
 
 bool set_full(Set *set);
 
-Set *new_set()
+Set *set_new()
 {
     Set *set = (Set *) malloc(sizeof(Set));
 
@@ -24,24 +24,21 @@ Set *new_set()
     return set;
 }
 
-void set_free(Set *set)
+void set_destroy(Set *set, void (*item_destroy)(void *))
 {
-    if (set)
-        free(set);
+    if (!set)
+        return;
 
-    return;
+    for (int i = 0; i < set->size; i++)
+        item_destroy(set->store[i]);
+
+    free(set);
 }
 
 status set_empty(Set *set)
 {
     if (!set)
         return ERROR;
-
-    for (int i = 0; i < set->size; i++)
-    {
-        if (set->store[i])
-            free(set->store[i]);
-    }
 
     set->size = 0;
     return OK;
@@ -57,7 +54,7 @@ int set_size(Set *set)
 
 status set_insert(Set *set, void *item)
 {
-    if (!set)
+    if (!set || !item)
         return ERROR;
 
     if (set_full(set))
@@ -99,6 +96,7 @@ status set_union(Set *a, Set *b, Set *r)
     if (!a || !b || !r)
         return ERROR;
 
+    set_empty(r);
     for (int i = 0; i < a->size; i++)
     {
         if (!set_insert(r, a->store[i]))
@@ -135,6 +133,8 @@ status set_intersection(Set *a, Set *b, Set *r)
         other_set = a;
     }
 
+    set_empty(r);
+
     for (int i = 0; i < min_set->size; i++)
     {
         if (set_search(other_set, min_set->store[i]))
@@ -142,7 +142,10 @@ status set_intersection(Set *a, Set *b, Set *r)
             if (!set_search(r, min_set->store[i]))
             {
                 if (!set_insert(r, min_set->store[i]))
+                {
+                    set_empty(r);
                     return ERROR;
+                }
             }
         }
     }
