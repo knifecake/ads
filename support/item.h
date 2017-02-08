@@ -1,7 +1,9 @@
 #include <stdlib.h>
+#include <stdbool.h>
 
-typedef struct {
-    int foo;
-} Item;
+typedef struct _Item Item;
 
-Item *new_item(int foo);
+Item *item_new(int foo);
+void item_destroy(Item *item);
+bool item_compare(Item *a, Item *b);
+Item *item_copy(Item *original);
