@@ -39,7 +39,7 @@ status delete_stack(Stack *sp, void (*item_destroy)(void *))
   return OK;
 }
 
-status push(Stack *sp, void *item)
+status push(Stack *sp, void *item, void *(*item_copy)(void *))
 {
   if (!sp || !item)
     return ERROR;
@@ -58,7 +58,7 @@ status push(Stack *sp, void *item)
   }
 
   sp->top++;
-  sp->data[sp->top] = item;
+  sp->data[sp->top] = item_copy(item);
 
   return OK;
 }
