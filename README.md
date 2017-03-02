@@ -2,6 +2,7 @@
 
 A poor implementation of the following data structures:
 
+* queue
 * stack
 * set
 

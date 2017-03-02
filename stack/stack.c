@@ -39,7 +39,7 @@ status delete_stack(Stack *sp, void (*item_destroy)(void *))
   return OK;
 }
 
-status push(Stack *sp, void *item, void *(*item_copy)(void *))
+status push(Stack *sp, void *item, void *(*item_copy)(const void *))
 {
   if (!sp || !item)
     return ERROR;

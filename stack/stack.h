@@ -33,7 +33,7 @@ status delete_stack(Stack *sp, void item_destroy(void *));
  * Requires a pointer to a function able
  * to copy the item being stored.
  */
-status push(Stack *sp, void *item, void *item_copy(void *));
+status push(Stack *sp, void *item, void *item_copy(const void *));
 
 /*
  * Returns the item atop the stack and removes it from the stack.

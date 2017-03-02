@@ -63,7 +63,7 @@ int main(void)
     assert("Can empty set",
             set_empty(s));
 
-    set_destroy(s, &item_destroy);
+    set_destroy(s, (void (*)(void *)) &item_destroy);
 
     // TODO: figure out how to test this
     assert("Can destroy set", true);

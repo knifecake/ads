@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -g -std=c99
 LDFLAGS=-L./
 
 test.out: test.c stack.o ../support/item.o ../tester/tester.o

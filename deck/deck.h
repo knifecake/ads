@@ -1,4 +1,5 @@
 #include "card.h"
+#include <stdbool.h>
 
 typedef struct _Deck Deck;
 
