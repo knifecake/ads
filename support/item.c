@@ -18,17 +18,17 @@ void item_destroy(Item *item)
 }
 
 
-bool item_compare(Item *a, Item *b)
+bool item_compare(const Item *a, const Item *b)
 {
-    return a->foo == b-> foo;
+    return a && b && a->foo == b->foo;
 }
 
-Item *item_copy(Item *original)
+Item *item_copy(const Item *original)
 {
     return item_new(original->foo);
 }
 
-int item_get_foo(Item *item)
+int item_get_foo(const Item *item)
 {
     return item->foo;
 }
