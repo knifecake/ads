@@ -1,11 +1,13 @@
 #include "queue.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #define REALLOC_BUFFER 10
 
 struct _Queue {
     void **data;
-    int size, capacity;
+    size_t size, capacity;
+    size_t head, tail;
 
     void (*item_destroy_function)(void *);
     void *(*item_copy_function)(const void *);
@@ -19,6 +21,8 @@ Queue *queue_new(void *(*item_copy_function)(const void *), void (*item_destroy_
     if (!q) return NULL;
 
     q->size = 0;
+    q->head = 0;
+    q->tail = 0;
     q->capacity = REALLOC_BUFFER;
     q->item_destroy_function = item_destroy_function;
     q->item_copy_function = item_copy_function;
@@ -38,7 +42,7 @@ void queue_destroy(Queue *q)
     if (!q) return;
 
     for (int i = 0; i < q->size; i++)
-        q->item_destroy_function(q->data[i]);
+        q->item_destroy_function(q->data[(q->head + i) % q->capacity]);
 
     free(q->data);
     free(q);
@@ -48,18 +52,19 @@ Queue *queue_enqueue(Queue *q, void *v)
 {
     if (!q || !v) return NULL;
 
-    if (q->size >= q->capacity)
+    if (q->tail >= q->capacity)
     {
-        void **new_data = realloc(q->data, (REALLOC_BUFFER + q->size) * sizeof(void *));
+        void **new_data = realloc(q->data, (REALLOC_BUFFER + q->capacity) * sizeof(void *));
         if (!new_data) return NULL;
 
         q->data = new_data;
+        q->capacity += REALLOC_BUFFER;
     }
 
     void *copy = q->item_copy_function(v);
     if (!copy) return NULL; // should we resize the queue?
 
-    q->data[q->size++] = copy;
+    q->data[q->tail++] = copy;
     return q;
 }
 
@@ -67,12 +72,5 @@ void *queue_dequeue(Queue *q)
 {
     if (!q) return NULL;
 
-    // buble the first element up
-    void *tmp;
-    for (int i = 0; i < q->size - 1; i++)
-    {
-        tmp = q->data[i]; q->data[i] = q->data[i + 1]; q->data[i + 1] = tmp;
-    }
-
-    return q->data[--q->size];
+    return q->data[q->head++];
 }
